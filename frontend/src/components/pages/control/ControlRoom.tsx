@@ -1,11 +1,11 @@
 import React, { useRef, useEffect } from 'react';
 
-import api from '../../../api';
-import useAppStore from '../../../store';
-import { Command } from '../../../types';
+import api from '~/api';
+import useAppStore from '~/store';
+import { Command } from '~/types';
 
-import { Button } from '../../ui/buttons/Button';
-import { Icons } from '../../ui/icons/Icons';
+import { Button } from '~/components/ui/buttons/Button';
+import { Icons } from '~/components/ui/icons/Icons';
 
 import classes from './controlRoom.module.css';
 
@@ -96,14 +96,14 @@ const ControlRoom = () => {
 				<h2>Presets</h2>
 
 				<div className={classes.presets_grid}>
-					<Button text="Redner" mouseDownHandler={() => null} />
-					<Button text="Leser" mouseDownHandler={() => null} />
-					<Button text="Tisch" mouseDownHandler={() => null} />
-					<Button text="Schwarzbild" mouseDownHandler={() => null} />
-					<Button text="Preset 5" mouseDownHandler={() => null} />
-					<Button text="Preset 6" mouseDownHandler={() => null} />
-					<Button text="Preset 7" mouseDownHandler={() => null} />
-					<Button text="Preset 8" mouseDownHandler={() => null} />
+					<Button variant="primary" text="Redner" mouseDownHandler={() => null} />
+					<Button variant="primary" text="Leser" mouseDownHandler={() => null} />
+					<Button variant="primary" text="Tisch" mouseDownHandler={() => null} />
+					<Button variant="primary" text="Schwarzbild" mouseDownHandler={() => null} />
+					<Button variant="primary" text="Preset 5" mouseDownHandler={() => null} />
+					<Button variant="primary" text="Preset 6" mouseDownHandler={() => null} />
+					<Button variant="primary" text="Preset 7" mouseDownHandler={() => null} />
+					<Button variant="primary" text="Preset 8" mouseDownHandler={() => null} />
 				</div>
 			</section>
 

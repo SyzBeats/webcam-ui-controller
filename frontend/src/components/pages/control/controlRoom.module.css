@@ -51,7 +51,7 @@
 	justify-content: flex-start;
 	align-items: center;
 	flex-direction: column;
-	background: hsla(162, 67%, 22%, 0.25);
+	background: #f0f0f0;
 }
 
 .manual_zoom_grid {
@@ -73,7 +73,7 @@
 }
 
 .manual_focus {
-	background: hsla(197, 71%, 36%, 0.2);
+	background: #f0f0f0;
 	flex: 1;
 }
 

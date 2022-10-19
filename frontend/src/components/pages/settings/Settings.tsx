@@ -1,7 +1,10 @@
 import React from 'react';
-import useAppStore from '../../../store';
-import { CameraNames } from '../../../types';
-import { Button } from '../../ui/buttons/Button';
+import useAppStore from '~/store';
+import { CameraNames } from '~/types';
+import { Button } from '~/components/ui/buttons/Button';
+
+// wails golang interface
+import { StoreInput } from '~/../wailsjs/go/main/App';
 
 import styles from './settings.module.css';
 
@@ -14,9 +17,10 @@ const Settings = () => {
 	 * Camera change handler which updates the current camera name in the store
 	 * @param e event
 	 */
-	const handleCameraNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleCameraNameChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
 		const camera = e.target.value as CameraNames;
 
+		await StoreInput(camera);
 		store.setCamera({
 			...settings.camera,
 			name: camera,

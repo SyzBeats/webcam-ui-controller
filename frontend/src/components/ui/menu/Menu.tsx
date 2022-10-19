@@ -1,6 +1,8 @@
 import React from 'react';
-import styles from './menu.module.css';
 import { Link } from 'react-router-dom';
+
+import styles from './menu.module.css';
+
 const Menu = () => {
 	return (
 		<nav className={styles.navigation}>

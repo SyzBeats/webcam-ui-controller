@@ -1,6 +1,6 @@
-import { Icons } from '../ui/icons/Icons';
-import { Menu } from '../ui/menu/Menu';
-import classes from './/header.module.css';
+import { Icons } from '~/components/ui/icons/Icons';
+import { Menu } from '~/components/ui/menu/Menu';
+import classes from './header.module.css';
 
 const Header = () => {
 	return (
