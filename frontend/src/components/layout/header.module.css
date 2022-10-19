@@ -1,0 +1,21 @@
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: var(--padding);
+	background-color: #fff;
+	border-bottom: 1px solid var(--color-grey-light);
+	color: var(--color-main);
+}
+
+.left {
+	flex: 1;
+}
+
+.right {
+	flex: 1;
+}
+
+.icon {
+	font-size: 3rem;
+}

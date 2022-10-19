@@ -1,0 +1,23 @@
+:root {
+	--color-main: hsl(217, 39%, 47%);
+	--color-main-dark: hsl(217, 39%, 30%);
+
+	--color-secondary: hsl(34, 61%, 48%);
+	--color-secondary-dark: hsl(34, 61%, 38%);
+
+	--color-white: hsl(0, 0%, 100%);
+
+	--color-grey: hsl(0, 0%, 70%);
+	--color-grey-light: hsl(0, 0%, 90%);
+
+	--color-text: #222;
+	--color-text-light: #f2f2f2;
+
+	--padding: 2rem;
+
+	--margin-sections: 2rem 0;
+
+	--font-size: 1.6rem;
+	--font-size-small: 1.4rem;
+	--font-size-large: 2rem;
+}

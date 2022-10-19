@@ -1,0 +1,80 @@
+section {
+	margin: 1rem 0;
+	padding: 1rem;
+	background: var(--color-white);
+	/*material shadow*/
+	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
+	border-radius: 0.4rem;
+}
+
+input[type='checkbox'] {
+	margin-right: 0.25rem;
+}
+
+.box {
+	padding: var(--padding);
+	display: flex;
+	justify-content: flex-start;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+label,
+input[type='checkbox']:hover,
+.box input[type='radio']:hover {
+	cursor: pointer;
+}
+
+input[type='text'],
+input[type='number'] {
+	padding: calc(var(--padding) / 2);
+	border: none;
+	background: var(--color-text-light);
+	border-radius: 0.2rem;
+	outline: none;
+}
+
+.box input {
+	margin-right: 1rem;
+}
+
+.box input[type='text'] {
+	height: 100%;
+}
+
+.box input[type='text']:focus {
+	background: var(--color-grey-light);
+}
+
+.presets_num {
+	width: 3.5rem;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	background: var(--color-main);
+	color: var(--color-text-light);
+}
+
+.parameters label {
+	margin: 1rem 0;
+}
+
+.align {
+	display: flex;
+	justify-content: flex-start;
+	gap: 0.5rem;
+}
+
+.column {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+.equalWidths {
+	display: flex;
+}
+
+.padded {
+	padding: var(--padding);
+}
