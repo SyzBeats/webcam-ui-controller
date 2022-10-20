@@ -45,6 +45,7 @@ export interface IStore {
 		username: string;
 		password: string;
 	};
+	setInitialValues: () => void;
 	getSettings: () => TSettings;
 	setParameters: (parameters: IStore['parameters']) => void;
 	setCamera: (camera: IStore['camera']) => void;

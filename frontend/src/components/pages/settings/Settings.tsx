@@ -4,7 +4,7 @@ import { CameraNames } from '~/types';
 import { Button } from '~/components/ui/buttons/Button';
 
 // wails golang interface
-import { StoreInput } from '~/../wailsjs/go/main/App';
+import { StoreSettings } from '~/../wailsjs/go/main/App';
 
 import styles from './settings.module.css';
 
@@ -20,7 +20,7 @@ const Settings = () => {
 	const handleCameraNameChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
 		const camera = e.target.value as CameraNames;
 
-		await StoreInput(camera);
+		await StoreSettings(camera);
 		store.setCamera({
 			...settings.camera,
 			name: camera,
