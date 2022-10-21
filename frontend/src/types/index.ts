@@ -79,4 +79,4 @@ export type TMovement = 'up' | 'down' | 'left' | 'right';
 /**
  * used for controller in camera service
  */
-export type Command = keyof typeof Commands;
+export type TCommand = keyof typeof Commands;

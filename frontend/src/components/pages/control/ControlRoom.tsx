@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 
 import api from '~/api';
 import useAppStore from '~/store';
-import { Command } from '~/types';
+import { TCommand } from '~/types';
 
 import { Button } from '~/components/ui/buttons/Button';
 import { Icons } from '~/components/ui/icons/Icons';
@@ -17,7 +17,7 @@ const ControlRoom = () => {
 	const stopCommand = useRef('');
 	const lastMovement = useRef('');
 
-	const getStopCommand = (command: Command): Command | null => {
+	const getStopCommand = (command: TCommand): TCommand | null => {
 		switch (command) {
 			case 'up':
 			case 'down':
@@ -46,7 +46,7 @@ const ControlRoom = () => {
 	 * @param e event
 	 * @param command the command to derive the payload from
 	 */
-	const handleMouseDown = (e: React.MouseEvent<HTMLButtonElement>, command: Command) => {
+	const handleMouseDown = (e: React.MouseEvent<HTMLButtonElement>, command: TCommand) => {
 		e.preventDefault();
 		e.stopPropagation();
 
@@ -74,7 +74,7 @@ const ControlRoom = () => {
 			return;
 		}
 
-		const payload = api.commands.getPayload(stopCommand.current as Command, store.getSettings(), lastMovement.current?.toLowerCase());
+		const payload = api.commands.getPayload(stopCommand.current as TCommand, store.getSettings(), lastMovement.current?.toLowerCase());
 
 		api.service.send(store.getSettings(), payload);
 	};

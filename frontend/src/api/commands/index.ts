@@ -1,4 +1,4 @@
-import { Command, TMovement, TSettings } from '../../types';
+import { TCommand, TMovement, TSettings } from '../../types';
 
 /**
  * contains the commands for the currently configured models (fomako, smtav)
@@ -260,7 +260,7 @@ const commandPayloads = {
  * @param settings the settings to be used for the command
  * @returns the payload for the command as stringified version
  */
-const getPayload = (command: Command, settings: TSettings, movement: string = '') => {
+const getPayload = (command: TCommand, settings: TSettings, movement: string = '') => {
 	if (!settings.camera.name) {
 		return '';
 	}
