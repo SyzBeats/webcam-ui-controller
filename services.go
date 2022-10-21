@@ -6,14 +6,19 @@ import (
 	"path"
 )
 
-/*
-* Setting storage service functions
-*
- */
-func (a *App) StoreSettings(input string) {
+// globals for file paths
+var appDirectory string = "camUI"
+var fileName string = "input.json"
 
-	appDirectory := "camUI"
-	fileName := "input.txt"
+type Settings struct {
+	Presets       string
+	Manipulations string
+	Parameters    string
+	Camera        string
+}
+
+// Stores settings in a file within the users config directory
+func (a *App) StoreSettings(input string) {
 
 	// get users config directory
 	configDirectory, err := os.UserConfigDir()
@@ -40,19 +45,18 @@ func (a *App) StoreSettings(input string) {
 
 	if err != nil {
 		fmt.Println(err)
+		f.Close()
 		return
 	}
 
 	// write the input to the file
-	l, err := f.WriteString(input)
+	_, err = f.Write([]byte(input))
 
 	if err != nil {
 		fmt.Println(err)
 		f.Close()
 		return
 	}
-
-	fmt.Println(l, "bytes written successfully")
 
 	err = f.Close()
 
@@ -62,10 +66,9 @@ func (a *App) StoreSettings(input string) {
 	}
 }
 
+// get the settings from the users config directory
 func (a *App) GetSettings() string {
 
-	appDirectory := "camUI"
-	fileName := "input.txt"
 	configDirectory, err := os.UserConfigDir()
 
 	if err != nil {
