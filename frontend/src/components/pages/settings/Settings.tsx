@@ -56,6 +56,20 @@ const Settings = () => {
 		});
 	};
 
+	const handlePresetChange = (e: React.ChangeEvent<HTMLInputElement>, key: string) => {
+		const { value } = e.target;
+
+		const newPresets = {
+			...settings.presets,
+			[key]: {
+				...(settings.presets ?? {})[key],
+				name: value,
+			},
+		};
+
+		store.setPresets(newPresets);
+	};
+
 	return (
 		<div className={styles.settings}>
 			<h1>Settings</h1>
@@ -91,69 +105,14 @@ const Settings = () => {
 				<h2>Presets</h2>
 
 				<div className={styles.box}>
-					<div className={styles.align}>
-						<div className={styles.presets_num}>1</div>
-						<label>
-							<input type="text" name="preset1" />
-						</label>
-						<Button text="set" variant="secondary" onClick={() => null} />
-					</div>
-
-					<div className={styles.align}>
-						<div className={styles.presets_num}>2</div>
-						<label>
-							<input type="text" name="preset2" />
-						</label>
-						<Button text="set" variant="secondary" onClick={() => null} />
-					</div>
-
-					<div className={styles.align}>
-						<div className={styles.presets_num}>3</div>
-						<label>
-							<input type="text" name="preset3" />
-						</label>
-						<Button text="set" variant="secondary" onClick={() => null} />
-					</div>
-
-					<div className={styles.align}>
-						<div className={styles.presets_num}>4</div>
-						<label>
-							<input type="text" name="preset4" />
-						</label>
-						<Button text="set" variant="secondary" onClick={() => null} />
-					</div>
-
-					<div className={styles.align}>
-						<div className={styles.presets_num}>5</div>
-						<label>
-							<input type="text" name="preset5" />
-						</label>
-						<Button text="set" variant="secondary" onClick={() => null} />
-					</div>
-
-					<div className={styles.align}>
-						<div className={styles.presets_num}>6</div>
-						<label>
-							<input type="text" name="preset6" />
-						</label>
-						<Button text="set" variant="secondary" onClick={() => null} />
-					</div>
-
-					<div className={styles.align}>
-						<div className={styles.presets_num}>7</div>
-						<label>
-							<input type="text" name="preset7" />
-						</label>
-						<Button text="set" variant="secondary" onClick={() => null} />
-					</div>
-
-					<div className={styles.align}>
-						<div className={styles.presets_num}>8</div>
-						<label>
-							<input type="text" name="preset8" />
-						</label>
-						<Button text="set" variant="secondary" onClick={() => null} />
-					</div>
+					{Object.keys(settings.presets ?? {}).map(key => (
+						<div key={key} className={styles.align}>
+							<div className={styles.presets_num}>{key}</div>
+							<label>
+								<input type="text" name={key} value={(settings.presets ?? {})[key].name} onChange={e => handlePresetChange(e, key)} />
+							</label>
+						</div>
+					))}
 
 					<div className={styles.presets_description}>
 						<h3>Assign presets</h3>

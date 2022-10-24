@@ -27,7 +27,7 @@ export type TSettings = Pick<IStore, 'parameters' | 'camera' | 'presets' | 'mani
 export interface IStore {
 	presets: {
 		[key: string]: IPreset;
-	};
+	} | null;
 	manipulations: {
 		flip: boolean;
 		mirror: boolean;
@@ -69,6 +69,8 @@ const Commands = {
 	zoomAdd: 'zoomAdd',
 	zoomDec: 'zoomDec',
 	home: 'home',
+	preset: 'preset',
+	focusLock: 'focusLock',
 };
 
 /**

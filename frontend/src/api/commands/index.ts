@@ -138,6 +138,16 @@ const commandPayloads = {
 		home: (settings: TSettings, _: any) => ({
 			SysCtrl: { PtzCtrl: { nChanel: 0, szPtzCmd: 'go_home', byValue: settings.parameters.panSpeed } },
 		}),
+
+		/**
+		 * preset selection command - used for preset selection
+		 * @param settings the current settings
+		 * @param movement the preset number to move to
+		 * @returns the payload for the command
+		 */
+		preset: (_s: TSettings, movement: string) => ({ SysCtrl: { PtzCtrl: { nChanel: 0, szPtzCmd: 'preset_call', byValue: movement } } }),
+
+		focusLock: (_s: TSettings, movement: any) => ({ SetEnv: { VideoParam: [{ stAF: { emAFMode: movement }, nChannel: 0 }] } }),
 	},
 	smtav: {
 		/**
@@ -251,6 +261,22 @@ const commandPayloads = {
 		 * @returns the payload for the command
 		 */
 		home: (_settings: TSettings, _: any) => 'home',
+
+		/**
+		 * home command - sets the camera to the home position
+		 * @param settings the current settings
+		 * @param _ unused
+		 * @returns the payload for the command
+		 */
+		preset: (_settings: TSettings, movement: string) => `poscall&${movement}`,
+
+		/**
+		 * home command - sets the camera to the home position
+		 * @param settings the current settings
+		 * @param _ unused
+		 * @returns the payload for the command
+		 */
+		focusLock: (_settings: TSettings, _: string) => 'lock_mfocus',
 	},
 };
 
@@ -262,14 +288,14 @@ const commandPayloads = {
  */
 const getPayload = (command: TCommand, settings: TSettings, movement: string = '') => {
 	if (!settings.camera.name) {
+		console.error('No camera selected');
 		return '';
 	}
 
 	// exeucte commands function which populates the payload
 	const payLoad = commandPayloads[settings.camera.name][command](settings, movement);
 
-	console.log(payLoad);
-
+	// fomako payload is returned as object, stringify it
 	if (typeof payLoad !== 'string') {
 		return JSON.stringify(payLoad);
 	}

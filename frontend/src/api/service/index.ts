@@ -32,8 +32,6 @@ const send = async (settings: TSettings, payload: string) => {
 
 		const reqUrl = `${baseUrl}${payload}`;
 
-		console.log(reqUrl);
-
 		const res = await (await fetch(reqUrl)).json();
 
 		return res;

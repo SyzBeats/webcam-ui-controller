@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 
 import api from '~/api';
 import useAppStore from '~/store';
-import { TCommand } from '~/types';
+import { CameraNames, TCommand } from '~/types';
 
 import { Button } from '~/components/ui/buttons/Button';
 import { Icons } from '~/components/ui/icons/Icons';
@@ -13,10 +13,18 @@ const ControlRoom = () => {
 	// State
 	const store = useAppStore();
 
-	// stopCommand
+	const settings = store.getSettings();
+
+	// Refs
 	const stopCommand = useRef('');
 	const lastMovement = useRef('');
 
+	/**
+	 * movements need to be stopped after mouse release. This function is executed on mouse release
+	 * and gets the right stop command
+	 * @param command the command to base the stop command on
+	 * @returns the stop command
+	 */
 	const getStopCommand = (command: TCommand): TCommand | null => {
 		switch (command) {
 			case 'up':
@@ -41,12 +49,13 @@ const ControlRoom = () => {
 			}
 		}
 	};
+
 	/**
 	 * mouse down handler for control buttons
 	 * @param e event
 	 * @param command the command to derive the payload from
 	 */
-	const handleMouseDown = (e: React.MouseEvent<HTMLButtonElement>, command: TCommand) => {
+	const handleMouseDown = async (e: React.MouseEvent<HTMLButtonElement>, command: TCommand) => {
 		e.preventDefault();
 		e.stopPropagation();
 
@@ -63,10 +72,28 @@ const ControlRoom = () => {
 			lastMovement.current = command;
 		}
 
-		api.service.send(store.getSettings(), payload);
+		await api.service.send(store.getSettings(), payload);
 	};
 
-	const handleMouseUp = (e: MouseEvent) => {
+	/**
+	 * handles the click on preset buttons
+	 * @param e event
+	 * @param key the key of the preset
+	 */
+	const handlePresetClick = async (e: React.MouseEvent<HTMLButtonElement>, key: string) => {
+		e.preventDefault();
+		e.stopPropagation();
+
+		const payload = api.commands.getPayload('preset', store.getSettings(), key);
+
+		await api.service.send(store.getSettings(), payload);
+	};
+
+	/**
+	 * handles mouse up for control buttons
+	 * @param e mouse event
+	 */
+	const handleMouseUp = async (e: MouseEvent) => {
 		e.preventDefault();
 		e.stopPropagation();
 
@@ -76,7 +103,21 @@ const ControlRoom = () => {
 
 		const payload = api.commands.getPayload(stopCommand.current as TCommand, store.getSettings(), lastMovement.current?.toLowerCase());
 
-		api.service.send(store.getSettings(), payload);
+		await api.service.send(store.getSettings(), payload);
+	};
+
+	const handleFocusLock = async (e: React.MouseEvent<HTMLButtonElement>) => {
+		e.preventDefault();
+		e.stopPropagation();
+
+		let payload = api.commands.getPayload('focusLock', store.getSettings(), '1');
+
+		await api.service.send(store.getSettings(), payload);
+
+		if (settings.camera.name === CameraNames.fomako) {
+			let payload = api.commands.getPayload('focusLock', store.getSettings(), '2');
+			await api.service.send(store.getSettings(), payload);
+		}
 	};
 
 	useEffect(() => {
@@ -96,14 +137,14 @@ const ControlRoom = () => {
 				<h2>Presets</h2>
 
 				<div className={classes.presets_grid}>
-					<Button variant="primary" text="Redner" mouseDownHandler={() => null} />
-					<Button variant="primary" text="Leser" mouseDownHandler={() => null} />
-					<Button variant="primary" text="Tisch" mouseDownHandler={() => null} />
-					<Button variant="primary" text="Schwarzbild" mouseDownHandler={() => null} />
-					<Button variant="primary" text="Preset 5" mouseDownHandler={() => null} />
-					<Button variant="primary" text="Preset 6" mouseDownHandler={() => null} />
-					<Button variant="primary" text="Preset 7" mouseDownHandler={() => null} />
-					<Button variant="primary" text="Preset 8" mouseDownHandler={() => null} />
+					{Object.keys(settings.presets ?? {}).map(key => (
+						<Button
+							key={key}
+							variant="primary"
+							text={(settings.presets ?? {})[key].name}
+							mouseDownHandler={e => handlePresetClick(e, key)}
+						/>
+					))}
 				</div>
 			</section>
 
@@ -152,7 +193,7 @@ const ControlRoom = () => {
 								<Button variant="primary" text={<Icons name="dot" />} circle mouseDownHandler={e => handleMouseDown(e, 'focusAdd')} />
 							</span>
 							<span className={`${classes.button_focus_2} ${classes.flex_centered}`}>
-								<Button variant="primary" text={<Icons name="letterA" />} circle mouseDownHandler={e => handleMouseDown(e, 'up')} />
+								<Button variant="primary" text={<Icons name="letterA" />} circle mouseDownHandler={e => handleFocusLock(e)} />
 							</span>
 							<span className={`${classes.button_focus_3} ${classes.flex_centered}`}>
 								<Button variant="primary" text={<Icons name="circle" />} circle mouseDownHandler={e => handleMouseDown(e, 'focusDec')} />
