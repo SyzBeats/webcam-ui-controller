@@ -147,6 +147,20 @@ const commandPayloads = {
 		 */
 		preset: (_s: TSettings, movement: string) => ({ SysCtrl: { PtzCtrl: { nChanel: 0, szPtzCmd: 'preset_call', byValue: movement } } }),
 
+		/**
+		 * preset set command - used for preset setting
+		 * @param _s unused
+		 * @param value the value to set the camera to
+		 * @returns
+		 */
+		setPreset: (_s: TSettings, value: string) => ({ SysCtrl: { PtzCtrl: { nChanel: 0, szPtzCmd: 'preset_set', byValue: value } } }),
+
+		/**
+		 * movees to the right preset
+		 * @param _s unused
+		 * @param movement  the preset number to move to
+		 * @returns
+		 */
 		focusLock: (_s: TSettings, movement: any) => ({ SetEnv: { VideoParam: [{ stAF: { emAFMode: movement }, nChannel: 0 }] } }),
 	},
 	smtav: {
@@ -224,8 +238,8 @@ const commandPayloads = {
 
 		/**
 		 * focus stop command - used to adjust focus additively
+		 * @param _settings unused
 		 * @param _ unused
-		 * @param movement the movement that is stopped
 		 * @returns the payload for the command
 		 */
 		stopFocus: (_settings: TSettings, _: any) => 'focusstop',
@@ -249,7 +263,7 @@ const commandPayloads = {
 		/**
 		 * zoom stop command - used for zoom cancelation
 		 * @param settings the current settings
-		 * @param movement the movement that is stopped
+		 * @param _ unused
 		 * @returns the payload for the command
 		 */
 		stopZoom: (_settings: TSettings, _: any) => 'zoomstop',
@@ -265,10 +279,18 @@ const commandPayloads = {
 		/**
 		 * home command - sets the camera to the home position
 		 * @param settings the current settings
-		 * @param _ unused
+		 * @param value the preset number to move to
 		 * @returns the payload for the command
 		 */
-		preset: (_settings: TSettings, movement: string) => `poscall&${movement}`,
+		preset: (_settings: TSettings, value: string) => `poscall&${value}`,
+
+		/**
+		 * preset set command - used for preset setting
+		 * @param _ unused
+		 * @param value the value to set the camera to
+		 * @returns the payload for the command
+		 */
+		setPreset: (_: TSettings, value: string) => `posset&${value}`,
 
 		/**
 		 * home command - sets the camera to the home position
@@ -286,7 +308,7 @@ const commandPayloads = {
  * @param settings the settings to be used for the command
  * @returns the payload for the command as stringified version
  */
-const getPayload = (command: TCommand, settings: TSettings, movement: string = '') => {
+const getCommandPayload = (command: TCommand, settings: TSettings, movement: string = '') => {
 	if (!settings.camera.name) {
 		console.error('No camera selected');
 		return '';
@@ -307,7 +329,7 @@ const getPayload = (command: TCommand, settings: TSettings, movement: string = '
  * commandcontroller export functions
  */
 const commands = {
-	getPayload,
+	getCommandPayload,
 };
 
 export default commands;

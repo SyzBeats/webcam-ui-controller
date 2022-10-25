@@ -12,7 +12,6 @@ import classes from './controlRoom.module.css';
 const ControlRoom = () => {
 	// State
 	const store = useAppStore();
-
 	const settings = store.getSettings();
 
 	// Refs
@@ -63,7 +62,7 @@ const ControlRoom = () => {
 			return;
 		}
 
-		const payload = api.commands.getPayload(command, store.getSettings());
+		const payload = api.commands.getCommandPayload(command, store.getSettings());
 
 		const stopCmd = getStopCommand(command);
 
@@ -84,7 +83,7 @@ const ControlRoom = () => {
 		e.preventDefault();
 		e.stopPropagation();
 
-		const payload = api.commands.getPayload('preset', store.getSettings(), key);
+		const payload = api.commands.getCommandPayload('preset', store.getSettings(), key);
 
 		await api.service.send(store.getSettings(), payload);
 	};
@@ -101,7 +100,11 @@ const ControlRoom = () => {
 			return;
 		}
 
-		const payload = api.commands.getPayload(stopCommand.current as TCommand, store.getSettings(), lastMovement.current?.toLowerCase());
+		const payload = api.commands.getCommandPayload(
+			stopCommand.current as TCommand,
+			store.getSettings(),
+			lastMovement.current?.toLowerCase()
+		);
 
 		await api.service.send(store.getSettings(), payload);
 	};
@@ -110,12 +113,12 @@ const ControlRoom = () => {
 		e.preventDefault();
 		e.stopPropagation();
 
-		let payload = api.commands.getPayload('focusLock', store.getSettings(), '1');
+		let payload = api.commands.getCommandPayload('focusLock', store.getSettings(), '1');
 
 		await api.service.send(store.getSettings(), payload);
 
 		if (settings.camera.name === CameraNames.fomako) {
-			let payload = api.commands.getPayload('focusLock', store.getSettings(), '2');
+			let payload = api.commands.getCommandPayload('focusLock', store.getSettings(), '2');
 			await api.service.send(store.getSettings(), payload);
 		}
 	};
@@ -124,6 +127,7 @@ const ControlRoom = () => {
 		// on mouseup stop the command
 		window.addEventListener('mouseup', handleMouseUp);
 
+		// cleanup
 		return () => {
 			window.removeEventListener('mouseup', handleMouseUp);
 		};

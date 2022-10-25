@@ -5,7 +5,7 @@ interface IProps {
 	text: string | React.ReactNode;
 	variant?: 'primary' | 'secondary';
 	circle?: boolean;
-	onClick?: () => void;
+	onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void | Promise<void>;
 	mouseDownHandler?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 	mouseUpHandler?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }

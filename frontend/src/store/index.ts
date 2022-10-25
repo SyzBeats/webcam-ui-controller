@@ -2,7 +2,6 @@ import create from 'zustand';
 import { CameraNames, IStore } from '../types';
 
 import { GetSettings, StoreSettings } from '~/../wailsjs/go/main/App';
-import { json } from 'stream/consumers';
 
 const defaultSettings = {
 	presets: {

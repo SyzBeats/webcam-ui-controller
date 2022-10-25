@@ -6,6 +6,7 @@ import { Button } from '~/components/ui/buttons/Button';
 // wails golang interface
 
 import styles from './settings.module.css';
+import api from '~/api';
 
 const Settings = () => {
 	const store = useAppStore();
@@ -56,7 +57,7 @@ const Settings = () => {
 		});
 	};
 
-	const handlePresetChange = (e: React.ChangeEvent<HTMLInputElement>, key: string) => {
+	const handlePresetNameChange = (e: React.ChangeEvent<HTMLInputElement>, key: string) => {
 		const { value } = e.target;
 
 		const newPresets = {
@@ -68,6 +69,16 @@ const Settings = () => {
 		};
 
 		store.setPresets(newPresets);
+	};
+
+	const handlePresetSubmit = async (e: React.MouseEvent<HTMLButtonElement>, key: string) => {
+		e.preventDefault();
+
+		// get payload
+		const payload = api.commands.getCommandPayload('setPreset', store.getSettings(), key);
+
+		// sends an api request to the backend to save the preset
+		await api.service.send(store.getSettings(), payload);
 	};
 
 	return (
@@ -109,8 +120,9 @@ const Settings = () => {
 						<div key={key} className={styles.align}>
 							<div className={styles.presets_num}>{key}</div>
 							<label>
-								<input type="text" name={key} value={(settings.presets ?? {})[key].name} onChange={e => handlePresetChange(e, key)} />
+								<input type="text" name={key} value={(settings.presets ?? {})[key].name} onChange={e => handlePresetNameChange(e, key)} />
 							</label>
+							<Button text="set" variant="secondary" onClick={e => handlePresetSubmit(e, key)} />
 						</div>
 					))}
 

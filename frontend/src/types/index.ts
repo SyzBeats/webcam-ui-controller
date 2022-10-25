@@ -70,6 +70,7 @@ const Commands = {
 	zoomDec: 'zoomDec',
 	home: 'home',
 	preset: 'preset',
+	setPreset: 'setPreset',
 	focusLock: 'focusLock',
 };
 
