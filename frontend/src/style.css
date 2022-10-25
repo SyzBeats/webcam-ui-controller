@@ -17,6 +17,8 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 	font-size: 1.6rem;
 	background: var(--color-white);
+
+	hyphens: auto;
 }
 
 code {

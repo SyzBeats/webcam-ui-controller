@@ -162,6 +162,34 @@ const commandPayloads = {
 		 * @returns
 		 */
 		focusLock: (_s: TSettings, movement: any) => ({ SetEnv: { VideoParam: [{ stAF: { emAFMode: movement }, nChannel: 0 }] } }),
+
+		/**
+		 * set flip mode
+		 * @param _s unused
+		 * @param mode the mode to set the camera to
+		 * @returns the payload for the command
+		 */
+		setFlip: (_s: TSettings, mode: any) => {
+			if (!['on', 'off'].includes(mode)) {
+				return;
+			}
+
+			// cam uses 2 for on and 3 for off
+			const toggle = mode === 'on' ? 2 : 3;
+
+			return { SetEnv: { VideoParam: [{ stImg: { nFlipH: toggle }, nChannel: 0 }] } };
+		},
+
+		setMirror: (_s: TSettings, mode: any) => {
+			if (!['on', 'off'].includes(mode)) {
+				return;
+			}
+
+			// cam uses 2 for on and 3 for off
+			const toggle = mode === 'on' ? 2 : 3;
+
+			return { SetEnv: { VideoParam: [{ stImg: { nFlipV: toggle }, nChannel: 0 }] } };
+		},
 	},
 	smtav: {
 		/**
@@ -299,6 +327,32 @@ const commandPayloads = {
 		 * @returns the payload for the command
 		 */
 		focusLock: (_settings: TSettings, _: string) => 'lock_mfocus',
+
+		/**
+		 * set flip mode
+		 * @param _s unused
+		 * @param mode the mode to set the camera to
+		 * @returns the payload for the command
+		 */
+		setFlip: (_s: TSettings, mode: any) => {
+			if (!['on', 'off'].includes(mode)) {
+				return;
+			}
+
+			const toggle = mode === 'on' ? 1 : 0;
+
+			return `flip&${toggle}`;
+		},
+
+		setMirror: (_s: TSettings, mode: any) => {
+			if (!['on', 'off'].includes(mode)) {
+				return;
+			}
+
+			const toggle = mode === 'on' ? 1 : 0;
+
+			return `mirror&${toggle}`;
+		},
 	},
 };
 

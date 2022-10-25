@@ -39,13 +39,35 @@ const Settings = () => {
 	 * changes the manipulation mode for mirror and flip
 	 * @param e event
 	 */
-	const handleImageManipulationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleImageManipulationChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name } = e.target;
 
 		store.setManipulations({
 			...settings.manipulations,
 			[name]: !settings.manipulations[name as 'mirror' | 'flip'],
 		});
+
+		const mode = !settings.manipulations[name as 'mirror' | 'flip'] ? 'on' : 'off';
+
+		let payLoad;
+
+		let command: 'setMirror' | 'setFlip';
+
+		if (name === 'mirror') {
+			command = 'setMirror';
+			payLoad = api.commands.getCommandPayload(command, settings, mode);
+		}
+
+		if (name === 'flip') {
+			command = 'setFlip';
+			payLoad = api.commands.getCommandPayload('setFlip', settings, mode);
+		}
+
+		if (!payLoad) {
+			return;
+		}
+
+		await api.service.send(settings, payLoad);
 	};
 
 	const handleParameterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -86,7 +108,7 @@ const Settings = () => {
 			<h1>Settings</h1>
 
 			<section className={styles.cameraType}>
-				<h2>camera type</h2>
+				<h2>Camera type</h2>
 
 				<div className={styles.box}>
 					<label>
@@ -132,23 +154,23 @@ const Settings = () => {
 						<ol className={styles.padded}>
 							<li>Move the camera into the position you want </li>
 							<li>Click the set button you want assign </li>
-							<li>Enter a Name for the preset button</li>
+							<li>Enter a name for the preset button</li>
 						</ol>
 					</div>
 				</div>
 			</section>
 
 			<section className={styles.imageMods}>
-				<h2>Image Manipulation</h2>
+				<h2>Image manipulation</h2>
 
 				<div className={`${styles.align} ${styles.column} ${styles.padded}`}>
 					<label>
 						<input type="checkbox" name="flip" checked={settings.manipulations.flip} onChange={handleImageManipulationChange} />
-						flip
+						Flip image
 					</label>
 					<label>
 						<input type="checkbox" name="mirror" checked={settings.manipulations.mirror} onChange={handleImageManipulationChange} />
-						Mirror
+						Mirror image
 					</label>
 				</div>
 			</section>

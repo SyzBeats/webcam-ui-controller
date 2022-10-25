@@ -118,7 +118,7 @@ const ControlRoom = () => {
 		await api.service.send(store.getSettings(), payload);
 
 		if (settings.camera.name === CameraNames.fomako) {
-			let payload = api.commands.getCommandPayload('focusLock', store.getSettings(), '2');
+			payload = api.commands.getCommandPayload('focusLock', store.getSettings(), '2');
 			await api.service.send(store.getSettings(), payload);
 		}
 	};

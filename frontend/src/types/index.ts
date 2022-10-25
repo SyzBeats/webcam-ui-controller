@@ -72,6 +72,8 @@ const Commands = {
 	preset: 'preset',
 	setPreset: 'setPreset',
 	focusLock: 'focusLock',
+	setFlip: 'setFlip',
+	setMirror: 'setMirror',
 };
 
 /**
