@@ -2,18 +2,32 @@
 
 ## About
 
-This is the official Wails React-TS template.
+This is a webcam UI controller for currently two lines of cameras:
 
-You can configure the project by editing `wails.json`. More information about the project settings can be found
-here: https://wails.io/docs/reference/project-config
+- _Fomako PTZ Video Camera_
+- _SMTAV_
 
-## Live Development
+The interface enables the user to control the camera's pan, tilt and zoom functions. The user can also set the camera's preset positions and move the camera to these positions.
+The apps backend is based on Golang and uses the [Wails](https://wails.app/) framework.
 
-To run in live development mode, run `wails dev` in the project directory. This will run a Vite development
-server that will provide very fast hot reload of your frontend changes. If you want to develop in a browser
-and have access to your Go methods, there is also a dev server that runs on http://localhost:34115. Connect
-to this in your browser, and you can call your Go code from devtools.
+The frontend is based on [React](https://reactjs.org/) and uses [zustand](https://github.com/pmndrs/zustand) as state management.
 
-## Building
+## Development
 
-To build a redistributable, production mode package, use `wails build`.
+### Prerequisites
+
+- [Node.js](https://nodejs.org/en/)
+- [Golang](https://golang.org/)
+- [Wails](https://wails.app/)
+
+## Using the .exe
+
+To build the app on your machine, run the following command:
+
+```bash
+wails build
+```
+
+This will generate a .exe file in the `build` folder under the `bin` directory.
+
+Simply run the .exe file and the app will start. The app will try to connect to the camera on the default port 80. If the camera is not on this port, you can change the port in the settings.
