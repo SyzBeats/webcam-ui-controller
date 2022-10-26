@@ -6,6 +6,10 @@ interface IPreset {
 	value: string;
 }
 
+export interface IApiConfig {
+	cgiInterface: 'ptzctrl.cgi' | 'param.cgi';
+}
+
 /**
  * all cameras which are supported by the app
  */

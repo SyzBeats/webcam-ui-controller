@@ -7,25 +7,18 @@ import (
 )
 
 // globals for file paths
-var appDirectory string = "camUI"
+var appDirectory string = "cameraControl"
 var fileName string = "input.json"
 
-type Settings struct {
-	Presets       string
-	Manipulations string
-	Parameters    string
-	Camera        string
-}
-
 // Stores settings in a file within the users config directory
-func (a *App) StoreSettings(input string) {
+func (a *App) StoreSettings(input string) bool {
 
 	// get users config directory
 	configDirectory, err := os.UserConfigDir()
 
 	if err != nil {
 		fmt.Println("Error getting user config directory")
-		return
+		return false
 	}
 
 	// join config directory with app directory
@@ -46,7 +39,7 @@ func (a *App) StoreSettings(input string) {
 	if err != nil {
 		fmt.Println(err)
 		f.Close()
-		return
+		return false
 	}
 
 	// write the input to the file
@@ -55,15 +48,17 @@ func (a *App) StoreSettings(input string) {
 	if err != nil {
 		fmt.Println(err)
 		f.Close()
-		return
+		return false
 	}
 
 	err = f.Close()
 
 	if err != nil {
 		fmt.Println(err)
-		return
+		return false
 	}
+
+	return true
 }
 
 // get the settings from the users config directory

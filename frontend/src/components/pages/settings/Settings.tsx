@@ -7,12 +7,15 @@ import { Button } from '~/components/ui/buttons/Button';
 
 import styles from './settings.module.css';
 import api from '~/api';
+import useToast from '~/hooks/useToast';
+import Toast from '~/components/ui/toast/Toast';
 
 const Settings = () => {
 	const store = useAppStore();
 
 	const settings = store.getSettings();
 
+	const { toast, show } = useToast();
 	/**
 	 * Camera change handler which updates the current camera name in the store
 	 * @param e event
@@ -67,7 +70,8 @@ const Settings = () => {
 			return;
 		}
 
-		await api.service.send(settings, payLoad);
+		// the cgi interface is used for SMTAV cameras
+		await api.service.send(settings, payLoad, { cgiInterface: 'param.cgi' });
 	};
 
 	const handleParameterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -94,13 +98,25 @@ const Settings = () => {
 	};
 
 	const handlePresetSubmit = async (e: React.MouseEvent<HTMLButtonElement>, key: string) => {
-		e.preventDefault();
+		try {
+			e.preventDefault();
 
-		// get payload
-		const payload = api.commands.getCommandPayload('setPreset', store.getSettings(), key);
+			// get payload
+			const payload = api.commands.getCommandPayload('setPreset', store.getSettings(), key);
 
-		// sends an api request to the backend to save the preset
-		await api.service.send(store.getSettings(), payload);
+			// sends an api request to the backend to save the preset
+			const res = await api.service.send(store.getSettings(), payload);
+
+			if (res) {
+				throw new Error('no response from camera');
+			}
+
+			show('Preset saved', 2000);
+		} catch (e: any) {
+			if (e?.message) {
+				show(e.message, 2000);
+			}
+		}
 	};
 
 	return (
@@ -147,6 +163,8 @@ const Settings = () => {
 							<Button text="set" variant="secondary" onClick={e => handlePresetSubmit(e, key)} />
 						</div>
 					))}
+
+					{toast.message && <Toast message={toast.message} />}
 
 					<div className={styles.presets_description}>
 						<h3>Assign presets</h3>

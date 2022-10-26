@@ -169,7 +169,7 @@ const commandPayloads = {
 		 * @param mode the mode to set the camera to
 		 * @returns the payload for the command
 		 */
-		setFlip: (_s: TSettings, mode: any) => {
+		setMirror: (_s: TSettings, mode: any) => {
 			if (!['on', 'off'].includes(mode)) {
 				return;
 			}
@@ -180,7 +180,7 @@ const commandPayloads = {
 			return { SetEnv: { VideoParam: [{ stImg: { nFlipH: toggle }, nChannel: 0 }] } };
 		},
 
-		setMirror: (_s: TSettings, mode: any) => {
+		setFlip: (_s: TSettings, mode: any) => {
 			if (!['on', 'off'].includes(mode)) {
 				return;
 			}

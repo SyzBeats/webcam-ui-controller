@@ -16,7 +16,7 @@ func main() {
 
 	// Create application with options
 	err := wails.Run(&options.App{
-		Title:            "camUI",
+		Title:            "Camera Control",
 		Width:            530,
 		Height:           910,
 		Assets:           assets,

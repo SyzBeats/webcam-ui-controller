@@ -3,4 +3,4 @@
 
 export function GetSettings():Promise<string>;
 
-export function StoreSettings(arg1:string):Promise<void>;
+export function StoreSettings(arg1:string):Promise<boolean>;
