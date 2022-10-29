@@ -62,7 +62,19 @@ const ControlRoom = () => {
 			return;
 		}
 
-		const payload = api.commands.getCommandPayload(command, store.getSettings());
+		let payLoad;
+
+		// fomako edge case for focus stop and focus add
+		// we need to send the stop command first and then the focus add / dec command
+		if (settings.camera.name === CameraNames.fomako && ['focusAdd', 'focusDec'].includes(command)) {
+			payLoad = api.commands.getCommandPayload('focusLock', settings, '3');
+			await api.service.send(settings, payLoad);
+		}
+
+		payLoad = api.commands.getCommandPayload(command, settings);
+
+		stopCommand.current = '';
+		lastMovement.current = '';
 
 		const stopCmd = getStopCommand(command);
 
@@ -71,7 +83,7 @@ const ControlRoom = () => {
 			lastMovement.current = command;
 		}
 
-		await api.service.send(store.getSettings(), payload);
+		await api.service.send(settings, payLoad);
 	};
 
 	/**
@@ -83,9 +95,9 @@ const ControlRoom = () => {
 		e.preventDefault();
 		e.stopPropagation();
 
-		const payload = api.commands.getCommandPayload('preset', store.getSettings(), key);
+		const payload = api.commands.getCommandPayload('preset', settings, key);
 
-		await api.service.send(store.getSettings(), payload);
+		await api.service.send(settings, payload);
 	};
 
 	/**
@@ -100,26 +112,25 @@ const ControlRoom = () => {
 			return;
 		}
 
-		const payload = api.commands.getCommandPayload(
-			stopCommand.current as TCommand,
-			store.getSettings(),
-			lastMovement.current?.toLowerCase()
-		);
+		const payload = api.commands.getCommandPayload(stopCommand.current as TCommand, settings, lastMovement.current?.toLowerCase());
 
-		await api.service.send(store.getSettings(), payload);
+		await api.service.send(settings, payload);
 	};
 
 	const handleFocusLock = async (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
 		e.stopPropagation();
 
-		let payload = api.commands.getCommandPayload('focusLock', store.getSettings(), '1');
+		stopCommand.current = '';
+		lastMovement.current = '';
 
-		await api.service.send(store.getSettings(), payload);
+		let payload = api.commands.getCommandPayload('focusLock', settings, '2');
+
+		await api.service.send(settings, payload);
 
 		if (settings.camera.name === CameraNames.fomako) {
-			payload = api.commands.getCommandPayload('focusLock', store.getSettings(), '2');
-			await api.service.send(store.getSettings(), payload);
+			payload = api.commands.getCommandPayload('focusLockZone', settings, '1');
+			await api.service.send(settings, payload);
 		}
 	};
 

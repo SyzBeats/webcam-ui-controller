@@ -164,6 +164,14 @@ const commandPayloads = {
 		focusLock: (_s: TSettings, movement: any) => ({ SetEnv: { VideoParam: [{ stAF: { emAFMode: movement }, nChannel: 0 }] } }),
 
 		/**
+		 * movees to the right preset
+		 * @param _s unused
+		 * @param movement  the preset number to move to
+		 * @returns
+		 */
+		focusLockZone: (_s: TSettings, movement: any) => ({ SetEnv: { VideoParam: [{ stAF: { emAFZone: movement }, nChannel: 0 }] } }),
+
+		/**
 		 * set flip mode
 		 * @param _s unused
 		 * @param mode the mode to set the camera to
@@ -305,7 +313,7 @@ const commandPayloads = {
 		home: (_settings: TSettings, _: any) => 'home',
 
 		/**
-		 * home command - sets the camera to the home position
+		 * preset command - sets the camera to the home position
 		 * @param settings the current settings
 		 * @param value the preset number to move to
 		 * @returns the payload for the command
@@ -321,12 +329,20 @@ const commandPayloads = {
 		setPreset: (_: TSettings, value: string) => `posset&${value}`,
 
 		/**
-		 * home command - sets the camera to the home position
+		 * focus lock command
 		 * @param settings the current settings
 		 * @param _ unused
 		 * @returns the payload for the command
 		 */
 		focusLock: (_settings: TSettings, _: string) => 'lock_mfocus',
+
+		/**
+		 * home command - sets the camera to the home position
+		 * @param settings the current settings
+		 * @param _ unused
+		 * @returns the payload for the command
+		 */
+		focusLockZone: (_settings: TSettings, _: string) => null,
 
 		/**
 		 * set flip mode
