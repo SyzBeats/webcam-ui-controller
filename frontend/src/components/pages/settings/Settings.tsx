@@ -1,21 +1,21 @@
 import React from 'react';
+
 import useAppStore from '~/store';
 import { CameraNames } from '~/types';
-import { Button } from '~/components/ui/buttons/Button';
-
-// wails golang interface
-
-import styles from './settings.module.css';
 import api from '~/api';
 import useToast from '~/hooks/useToast';
+import { Button } from '~/components/ui/buttons/Button';
 import Toast from '~/components/ui/toast/Toast';
 
-const Settings = () => {
-	const store = useAppStore();
+import styles from './settings.module.css';
 
+const Settings = () => {
+	// Store
+	const store = useAppStore();
 	const settings = store.getSettings();
 
 	const { toast, show } = useToast();
+
 	/**
 	 * Camera change handler which updates the current camera name in the store
 	 * @param e event
@@ -74,6 +74,10 @@ const Settings = () => {
 		await api.service.send(settings, payLoad, { cgiInterface: 'param.cgi' });
 	};
 
+	/**
+	 * handles any change in parameters for the camera
+	 * @param e event
+	 */
 	const handleParameterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
 
@@ -83,6 +87,11 @@ const Settings = () => {
 		});
 	};
 
+	/**
+	 * handles the change of the preset name (live)
+	 * @param e event
+	 * @param key  the key of the preset
+	 */
 	const handlePresetNameChange = (e: React.ChangeEvent<HTMLInputElement>, key: string) => {
 		const { value } = e.target;
 
@@ -97,6 +106,11 @@ const Settings = () => {
 		store.setPresets(newPresets);
 	};
 
+	/**
+	 * handles the change of the preset position and sends it to the camera
+	 * @param e event
+	 * @param key the key of the preset
+	 */
 	const handlePresetSubmit = async (e: React.MouseEvent<HTMLButtonElement>, key: string) => {
 		try {
 			e.preventDefault();
@@ -107,7 +121,7 @@ const Settings = () => {
 			// sends an api request to the backend to save the preset
 			const res = await api.service.send(store.getSettings(), payload);
 
-			if (res) {
+			if (!res) {
 				throw new Error('no response from camera');
 			}
 

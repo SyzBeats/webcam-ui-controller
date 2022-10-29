@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+
 import { BrowserOpenURL } from '~/../wailsjs/runtime';
 
 import styles from './menu.module.css';

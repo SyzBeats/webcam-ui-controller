@@ -1,7 +1,5 @@
 import React from 'react';
 
-import classes from './icons.module.css';
-
 const getSVGElement = (name: string) => {
 	switch (name) {
 		case 'arrowUp': {
