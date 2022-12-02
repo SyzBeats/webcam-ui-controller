@@ -95,6 +95,9 @@ const ControlRoom = () => {
 		e.preventDefault();
 		e.stopPropagation();
 
+		stopCommand.current = '';
+		lastMovement.current = '';
+
 		const payload = api.commands.getCommandPayload('preset', settings, key);
 
 		await api.service.send(settings, payload);
@@ -205,13 +208,25 @@ const ControlRoom = () => {
 						<h3 className={classes.block_title}>Focus</h3>
 						<div className={classes.manual_focus_grid}>
 							<span className={`${classes.button_focus_1} ${classes.flex_centered}`}>
-								<Button variant="primary" text={<Icons name="dot" />} circle mouseDownHandler={e => handleMouseDown(e, 'focusAdd')} />
+								<Button
+									disabled={settings.camera.name === CameraNames.fomako}
+									variant="primary"
+									text={<Icons name="dot" />}
+									circle
+									mouseDownHandler={e => handleMouseDown(e, 'focusAdd')}
+								/>
 							</span>
 							<span className={`${classes.button_focus_2} ${classes.flex_centered}`}>
 								<Button variant="primary" text={<Icons name="letterA" />} circle mouseDownHandler={e => handleFocusLock(e)} />
 							</span>
 							<span className={`${classes.button_focus_3} ${classes.flex_centered}`}>
-								<Button variant="primary" text={<Icons name="circle" />} circle mouseDownHandler={e => handleMouseDown(e, 'focusDec')} />
+								<Button
+									disabled={settings.camera.name === CameraNames.fomako}
+									variant="primary"
+									text={<Icons name="circle" />}
+									circle
+									mouseDownHandler={e => handleMouseDown(e, 'focusDec')}
+								/>
 							</span>
 						</div>
 					</div>

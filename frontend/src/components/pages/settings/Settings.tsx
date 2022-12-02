@@ -119,11 +119,7 @@ const Settings = () => {
 			const payload = api.commands.getCommandPayload('setPreset', store.getSettings(), key);
 
 			// sends an api request to the backend to save the preset
-			const res = await api.service.send(store.getSettings(), payload);
-
-			if (!res) {
-				throw new Error('no response from camera');
-			}
+			await api.service.send(store.getSettings(), payload);
 
 			show('Preset saved', 2000);
 		} catch (e: any) {

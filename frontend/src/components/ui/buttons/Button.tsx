@@ -9,6 +9,7 @@ interface IProps {
 	onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void | Promise<void>;
 	mouseDownHandler?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 	mouseUpHandler?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+	disabled?: boolean;
 }
 const Button = (props: IProps) => {
 	const classes = [styles.button];
@@ -25,8 +26,18 @@ const Button = (props: IProps) => {
 		classes.push(styles.circled);
 	}
 
+	if (props.disabled) {
+		classes.push(styles.disabled);
+	}
+
 	return (
-		<button className={classes.join(' ')} onClick={props.onClick} onMouseDown={props.mouseDownHandler} onMouseUp={props.mouseUpHandler}>
+		<button
+			disabled={props.disabled}
+			className={classes.join(' ')}
+			onClick={props.onClick}
+			onMouseDown={props.mouseDownHandler}
+			onMouseUp={props.mouseUpHandler}
+		>
 			{props.text}
 		</button>
 	);
