@@ -17,6 +17,7 @@ const ControlRoom = () => {
 	// Refs
 	const stopCommand = useRef('');
 	const lastMovement = useRef('');
+	const pending = useRef(false);
 
 	/**
 	 * movements need to be stopped after mouse release. This function is executed on mouse release
@@ -58,7 +59,7 @@ const ControlRoom = () => {
 		e.preventDefault();
 		e.stopPropagation();
 
-		if (!command) {
+		if (!command || pending.current) {
 			return;
 		}
 
@@ -111,13 +112,15 @@ const ControlRoom = () => {
 		e.preventDefault();
 		e.stopPropagation();
 
-		if (!stopCommand.current || !lastMovement.current) {
+		if (!stopCommand.current || pending.current) {
 			return;
 		}
 
 		const payload = api.commands.getCommandPayload(stopCommand.current as TCommand, settings, lastMovement.current?.toLowerCase());
 
+		pending.current = true;
 		await api.service.send(settings, payload);
+		pending.current = false;
 	};
 
 	const handleFocusLock = async (e: React.MouseEvent<HTMLButtonElement>) => {
