@@ -74,6 +74,7 @@ const ControlRoom = () => {
 
 		payLoad = api.commands.getCommandPayload(command, settings);
 
+		// command reset
 		stopCommand.current = '';
 		lastMovement.current = '';
 
@@ -96,6 +97,7 @@ const ControlRoom = () => {
 		e.preventDefault();
 		e.stopPropagation();
 
+		// command reset
 		stopCommand.current = '';
 		lastMovement.current = '';
 
@@ -118,8 +120,13 @@ const ControlRoom = () => {
 
 		const payload = api.commands.getCommandPayload(stopCommand.current as TCommand, settings, lastMovement.current?.toLowerCase());
 
+		// lock
 		pending.current = true;
+
 		await api.service.send(settings, payload);
+
+		// reset
+		stopCommand.current = '';
 		pending.current = false;
 	};
 
